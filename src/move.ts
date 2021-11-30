@@ -17,7 +17,7 @@ export default function move(list: List, source: string, destination: string): L
   let expectedFile: IFile | null = null;
   let foldersMapWithId: Map<string | number, IFolder> = new Map<string | number, IFolder>();
 
-  list.forEach((folder: IFolder) => {
+  for (let folder of list) {
     if (folder.id === source) {
       throw new Error('You cannot move a folder');
     }
@@ -36,7 +36,7 @@ export default function move(list: List, source: string, destination: string): L
       name: folder.name,
       files: files,
     });
-  });
+  }
 
   if (!expectedFile) {
     throw new Error(`File not found: ${source}`);
@@ -57,14 +57,14 @@ function poppedFilesFromFolder(folder: IFolder, fileId: string): [Array<IFile>, 
   let poppedFile: IFile | null = null;
   let files = new Array<IFile>();
 
-  folder.files.forEach((file: IFile) => {
+  for (let file of folder.files) {
     if (file.id === fileId) {
       poppedFile = file;
-      return;
+      continue;
     }
 
     files.push(file);
-  });
+  }
 
   return [files, poppedFile];
 }
